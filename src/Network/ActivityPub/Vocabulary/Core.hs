@@ -1,19 +1,15 @@
-{-# LANGUAGE DeriveGeneric #-}
-
 module Network.ActivityPub.Vocabulary.Core where
 
-import           Data.Maybe                     ( Maybe )
-import           Data.Text                      ( Text )
-import           Data.Time                      ( UTCTime )
-import           Network.URI                    ( URI )
+import           Data.Maybe                                (Maybe)
+import           Data.Text                                 (Text)
+import           Data.Time                                 (UTCTime)
+import           Network.URI                               (URI)
 
 import           Network.ActivityPub.Vocabulary.Properties
 
-import           GHC.Generics
-
 data Object =
     Object
-    { oid               :: URI
+    { oid               :: Maybe URI
     , oObjectProperties :: ObjectProperties
     } deriving (Show, Eq)
 
@@ -22,20 +18,20 @@ type Image = Document
 
 data Link =
     Link
-    { lid             :: URI
+    { lid             :: Maybe URI
     , lLinkProperties :: LinkProperties
     } deriving (Show, Eq)
 
 data Activity =
     Activity
-    { aid                 :: URI
+    { aid                 :: Maybe URI
     , aObjectProperties   :: ObjectProperties
     , aActivityProperties :: ActivityProperties
     } deriving (Show, Eq)
 
 data Collection =
     Collection
-    { cid                   :: URI
+    { cid                   :: Maybe URI
     , cObjectProperties     :: ObjectProperties
     , cCollectionProperties :: CollectionProperties
     } deriving (Show, Eq)
@@ -44,7 +40,7 @@ type OrderedCollection = Collection
 
 data CollectionPage =
     CollectionPage
-    { cpid                       :: URI
+    { cpid                       :: Maybe URI
     , cpObjectProperties         :: ObjectProperties
     , cpCollectionProperties     :: CollectionProperties
     , cpCollectionPageProperties :: CollectionPageProperties
@@ -52,7 +48,7 @@ data CollectionPage =
 
 data OrderedCollectionPage =
     OrderedCollectionPage
-    { ocpid                       :: URI
+    { ocpid                       :: Maybe URI
     , ocpObjectProperties         :: ObjectProperties
     , ocpCollectionProperties     :: CollectionProperties
     , ocpCollectionPageProperties :: CollectionPageProperties
@@ -79,8 +75,7 @@ data CollectionProperties =
 
 data LinkProperties =
     LinkProperties
-    { lType :: Type
-    , href      :: Maybe Href
+    { href      :: Maybe Href
     , rel       :: Maybe Rel
     , mediaType :: Maybe MediaType
     , name      :: Maybe Name
@@ -102,8 +97,7 @@ data ActivityProperties =
 
 data ObjectProperties =
     ObjectProperties
-    { objType :: Type
-    , attachment   :: Maybe Attachment
+    { attachment   :: Maybe Attachment
     , attributedTo :: Maybe AttributedTo
     , audience     :: Maybe Audience
     , content      :: Maybe Content
@@ -169,60 +163,3 @@ type Units = Either Unit URI
 type Subject = Either Object Link
 type Describes = Object
 type FormerType = Object
-
-data Type =
-    TObject |
-    TLink |
-    TActivity |
-    TIntransitiveActivity |
-    TCollection |
-    TOrderedCollection |
-    TCollectionPage |
-    TOrderedCollectionPage |
-    TAccept |
-    TAdd |
-    TAnnounce |
-    TArrive |
-    TBlock |
-    TCreate |
-    TDelete |
-    TDislike |
-    TFlag |
-    TFollow |
-    TIgnore |
-    TInvite |
-    TJoin |
-    TLeave |
-    TLike |
-    TListen |
-    TMove |
-    TOffer |
-    TQuestion |
-    TReject |
-    TRead |
-    TRemove |
-    TTentativeReject |
-    TTentativeAccept |
-    TTravel |
-    TUndo |
-    TUpdate |
-    TView |
-    TApplication |
-    TGroup |
-    TOrganization |
-    TPerson |
-    TService |
-    TArticle |
-    TAudio |
-    TDocument |
-    TEvent |
-    TImage |
-    TNote |
-    TPage |
-    TPlace |
-    TProfile |
-    TRelationship |
-    TTombstone |
-    TVideo |
-    TMention
-    deriving (Show, Eq, Generic)

@@ -16,9 +16,9 @@ main = do
     hspec $ do
         describe "Decode Vocabulary" $ do
             it "should decode Object" $
-                (decode apObject :: Maybe C.Object) `shouldNotBe` Nothing
+                traceShowId (decode apObject :: Maybe C.Object) `shouldNotBe` Nothing
             it "should decode Link" $
-                traceShowId (A.eitherDecode apLink :: Either String C.Link) `shouldNotBe` (Left "")
+                traceShowId (decode apLink :: Maybe C.Link) `shouldNotBe` Nothing
         describe "Encode Vocabulary" $ do
             it "should encode Object" $
                 1 `shouldBe` 1

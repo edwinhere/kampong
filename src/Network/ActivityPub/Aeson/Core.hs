@@ -44,12 +44,8 @@ instance ToJSON URI where
 
 instance FromJSON C.Object where
     parseJSON = withObject "Object" $ \o -> do
-        oid               <- o .: "id"
+        oid               <- o .:? "id"
         oObjectProperties <- parseJSON (A.Object o)
-        let kind = objType oObjectProperties
-        when (kind `elem` [TLink, TMention]) $ fail $ printf
-            "Cannot decode a %s as an Object or its subtypes"
-            (show kind)
         return C.Object { .. }
 
 -- type Document = Object
@@ -63,12 +59,8 @@ instance FromJSON C.Object where
 
 instance FromJSON Link where
     parseJSON = withObject "Link" $ \o -> do
-        lid             <- o .: "id"
+        lid             <- o .:? "id"
         lLinkProperties <- parseJSON (A.Object o)
-        let kind = lType lLinkProperties
-        when (kind `notElem` [TLink, TMention]) $ fail $ printf
-            "Cannot decode a %s as an Link or its subtypes"
-            (show kind)
         return Link { .. }
 
 -- data Activity =
@@ -80,46 +72,10 @@ instance FromJSON Link where
 
 instance FromJSON Activity where
     parseJSON = withObject "Activity" $ \o -> do
-        aid                 <- o .: "id"
+        aid                 <- o .:? "id"
         aObjectProperties   <- parseJSON (A.Object o)
         aActivityProperties <- parseJSON (A.Object o)
-        let kind = objType aObjectProperties
-        when (kind `notElem` activityTypes) $ fail $ printf
-            "Cannot decode a %s as an Activity or its subtypes"
-            (show kind)
         return Activity { .. }
-      where
-        activityTypes =
-            [ TActivity
-            , TAccept
-            , TAdd
-            , TAnnounce
-            , TArrive
-            , TBlock
-            , TCreate
-            , TDelete
-            , TDislike
-            , TFlag
-            , TFollow
-            , TIgnore
-            , TInvite
-            , TJoin
-            , TLeave
-            , TLike
-            , TListen
-            , TMove
-            , TOffer
-            , TQuestion
-            , TReject
-            , TRead
-            , TRemove
-            , TTentativeReject
-            , TTentativeAccept
-            , TTravel
-            , TUndo
-            , TUpdate
-            , TView
-            ]
 
 -- data Collection =
 --     Collection
@@ -130,21 +86,10 @@ instance FromJSON Activity where
 
 instance FromJSON Collection where
     parseJSON = withObject "Collection" $ \o -> do
-        cid                   <- o .: "id"
+        cid                   <- o .:? "id"
         cObjectProperties     <- parseJSON (A.Object o)
         cCollectionProperties <- parseJSON (A.Object o)
-        let kind = objType cObjectProperties
-        when (kind `notElem` collectionTypes) $ fail $ printf
-            "Cannot decode a %s as an Collection or its subtypes"
-            (show kind)
         return Collection { .. }
-      where
-        collectionTypes =
-            [ TCollection
-            , TOrderedCollection
-            , TCollectionPage
-            , TOrderedCollectionPage
-            ]
 
 -- type OrderedCollection = Collection
 
@@ -158,16 +103,11 @@ instance FromJSON Collection where
 
 instance FromJSON CollectionPage where
     parseJSON = withObject "CollectionPage" $ \o -> do
-        cpid                       <- o .: "id"
+        cpid                       <- o .:? "id"
         cpObjectProperties         <- parseJSON (A.Object o)
         cpCollectionProperties     <- parseJSON (A.Object o)
         cpCollectionPageProperties <- parseJSON (A.Object o)
-        let kind = objType cpObjectProperties
-        when (kind `notElem` collectionTypes) $ fail $ printf
-            "Cannot decode a %s as an CollectionPage or its subtypes"
-            (show kind)
         return CollectionPage { .. }
-        where collectionTypes = [TCollectionPage, TOrderedCollectionPage]
 
 
 -- data OrderedCollectionPage =
@@ -181,17 +121,12 @@ instance FromJSON CollectionPage where
 
 instance FromJSON OrderedCollectionPage where
     parseJSON = withObject "OrderedCollectionPage" $ \o -> do
-        ocpid                       <- o .: "id"
+        ocpid                       <- o .:? "id"
         ocpObjectProperties         <- parseJSON (A.Object o)
         ocpCollectionProperties     <- parseJSON (A.Object o)
         ocpCollectionPageProperties <- parseJSON (A.Object o)
         startIndex                  <- o .:? "startIndex"
-        let kind = objType ocpObjectProperties
-        when (kind `notElem` collectionTypes) $ fail $ printf
-            "Cannot decode a %s as an CollectionPage or its subtypes"
-            (show kind)
         return OrderedCollectionPage { .. }
-        where collectionTypes = [TOrderedCollectionPage]
 
 -- -- Property Data Types
 -- data CollectionPageProperties =
@@ -240,7 +175,6 @@ instance FromJSON CollectionProperties where
 
 instance FromJSON LinkProperties where
     parseJSON = withObject "LinkProperties" $ \o -> do
-        lType     <- o .: "type"
         href      <- o .:? "href"
         rel       <- o .:? "rel"
         mediaType <- o .:? "mediaType"
@@ -303,7 +237,6 @@ instance FromJSON ActivityProperties where
 
 instance FromJSON ObjectProperties where
     parseJSON = withObject "ObjectProperties" $ \o -> do
-        objType      <- o .: "type"
         attachment   <- o .:? "attachment"
         attributedTo <- o .:? "attributedTo"
         audience     <- o .:? "audience"
@@ -389,10 +322,3 @@ instance FromJSON Closed where
 -- type Subject = Either Object Link
 -- type Describes = Object
 -- type FormerType = Object
-
-instance FromJSON Type where
-    parseJSON =
-        genericParseJSON defaultOptions { constructorTagModifier = drop 1 }
-
-instance ToJSON Type where
-    toJSON = genericToJSON defaultOptions { constructorTagModifier = drop 1 }

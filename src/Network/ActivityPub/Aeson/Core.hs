@@ -26,6 +26,8 @@ import           Text.Printf
 
 import           Control.Monad
 
+import           Control.Applicative
+
 instance FromJSON URI where
     parseJSON =
         withText "URI"
@@ -59,7 +61,7 @@ instance FromJSON C.Object where
 
 instance FromJSON Link where
     parseJSON = withObject "Link" $ \o -> do
-        lid             <- o .:? "id"
+        lid             <- o .: "href" <|> o .:? "id"
         lLinkProperties <- parseJSON (A.Object o)
         return Link { .. }
 

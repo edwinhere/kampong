@@ -13,12 +13,15 @@ main :: IO ()
 main = do
     apObject <- BL.readFile "test/examples/example-1.json"
     apLink <- BL.readFile "test/examples/example-2.json"
+    apActivity <- BL.readFile "test/examples/example-3.json"
     hspec $ do
         describe "Decode Vocabulary" $ do
             it "should decode Object" $
-                traceShowId (decode apObject :: Maybe C.Object) `shouldNotBe` Nothing
+                (decode apObject :: Maybe C.Object) `shouldNotBe` Nothing
             it "should decode Link" $
-                traceShowId (decode apLink :: Maybe C.Link) `shouldNotBe` Nothing
+                (decode apLink :: Maybe C.Link) `shouldNotBe` Nothing
+            it "should decode Activity" $
+                traceShowId (eitherDecode apActivity :: Either String C.Activity) `shouldNotBe` (Left "")
         describe "Encode Vocabulary" $ do
             it "should encode Object" $
                 1 `shouldBe` 1

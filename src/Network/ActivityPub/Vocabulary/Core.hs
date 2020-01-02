@@ -163,3 +163,5 @@ type Units = Either Unit URI
 type Subject = Either Object Link
 type Describes = Object
 type FormerType = Object
+
+data Alter a b = Sinister a | Dexter b deriving (Show, Eq)

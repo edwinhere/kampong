@@ -1,0 +1,158 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.37.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           kampong
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/edwinhere/kampong#readme>
+homepage:       https://github.com/edwinhere/kampong#readme
+bug-reports:    https://github.com/edwinhere/kampong/issues
+author:         Edwin
+maintainer:     edwinhere@gmail.com
+copyright:      Edwin Jose Palathinkal
+license:        BSD-3-Clause
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/edwinhere/kampong
+
+library
+  exposed-modules:
+      Kampong
+      Kampong.Core
+      Kampong.Core.Activity
+      Kampong.Core.Actor
+      Kampong.Core.Object
+      Kampong.Core.Collection
+      Kampong.Core.WebFinger
+      Kampong.Core.Types
+      Kampong.Core.Actor.Types
+      Kampong.Server
+      Kampong.Storage
+      Kampong.Storage.Memory
+      Kampong.Storage.SQLite
+      Kampong.Storage.Interface
+      Kampong.Storage.Types
+      Kampong.Error
+      Kampong.Logging
+  other-modules:
+      Kampong.Core.Activity.Types
+      Kampong.Core.Collection.Types
+      Kampong.Core.Object.Types
+      Lib
+      Paths_kampong
+  autogen-modules:
+      Paths_kampong
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , base64-bytestring
+    , bytestring
+    , conduit
+    , containers
+    , cryptonite
+    , http-client
+    , http-client-tls
+    , http-types
+    , lens
+    , memory
+    , mtl
+    , network-uri
+    , protolude
+    , sqlite-simple
+    , text
+    , time
+    , transformers
+    , uuid
+    , wai
+    , wai-cors
+    , warp
+  default-language: Haskell2010
+
+executable kampong-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_kampong
+  autogen-modules:
+      Paths_kampong
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , base64-bytestring
+    , bytestring
+    , conduit
+    , containers
+    , cryptonite
+    , http-client
+    , http-client-tls
+    , http-types
+    , kampong
+    , lens
+    , memory
+    , mtl
+    , network-uri
+    , protolude
+    , sqlite-simple
+    , text
+    , time
+    , transformers
+    , uuid
+    , wai
+    , wai-cors
+    , warp
+  default-language: Haskell2010
+
+test-suite kampong-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_kampong
+  autogen-modules:
+      Paths_kampong
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      QuickCheck
+    , aeson
+    , base >=4.7 && <5
+    , base64-bytestring
+    , bytestring
+    , conduit
+    , containers
+    , cryptonite
+    , hspec
+    , http-client
+    , http-client-tls
+    , http-types
+    , kampong
+    , lens
+    , memory
+    , mtl
+    , network-uri
+    , protolude
+    , sqlite-simple
+    , tasty
+    , tasty-hunit
+    , tasty-quickcheck
+    , text
+    , time
+    , transformers
+    , uuid
+    , wai
+    , wai-cors
+    , warp
+  default-language: Haskell2010

@@ -1,0 +1,9 @@
+.stack-work/
+*~
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+*.db-trace
+*.db-lock
+*.db-trace
